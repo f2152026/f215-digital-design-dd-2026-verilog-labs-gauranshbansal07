@@ -23,3 +23,14 @@ module FA_Gate(
   or  (cout, pc1, pc2);
 
 endmodule
+
+
+// In Task 1(b), reordering the gate instantiations does not change the 
+// circuit behavior because Verilog gate-level primitives are concurrent
+// statements, not sequential statements. The simulator responds to signal 
+// changes and schedules the gates accordingly, so the source-code order does
+// not determine the logical result. In Task 1(c), adding delays changes the
+// waveform timing because each gate output is updated after its specified
+// propagation delay. The final sum and cout values remain those of a full
+// adder, but their transitions occur later and intermediate propagation
+// effects/glitches may be visible in the waveform.
