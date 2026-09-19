@@ -1,27 +1,50 @@
-// tb.v
-// Starter testbench template -- YOU complete this file.
+`timescale 1ns/1ps
 
 module tb;
 
-  // TODO: declare the inputs and outputs
+    // Parameters
+    parameter WIDTH = 8;
+    parameter DEPTH = 4;
 
-  // TODO: instantiate DUT here
+    // Inputs
+    reg [$clog2(DEPTH)-1:0] sel;
 
-  // Waveform dump configuration (DO NOT CHANGE)
-  string vcd_file;
-  initial begin
-    if ($value$plusargs("vcd=%s", vcd_file)) begin
-      $dumpfile(vcd_file);
-      $dumpvars(0, DUT);
+    // Output
+    wire [WIDTH-1:0] dout;
+
+    // Instantiate DUT
+    lut #(
+        .WIDTH(WIDTH),
+        .DEPTH(DEPTH)
+    ) dut (
+        .sel(sel),
+        .dout(dout)
+    );
+
+    // Test cases
+    initial begin
+
+        $monitor("Time=%0t | sel=%0d | dout=%0d",
+                 $time, sel, dout);
+
+        // Test sel = 0
+        sel = 0;
+        #10;
+
+        // Test sel = 1
+        sel = 1;
+        #10;
+
+        // Test sel = 2
+        sel = 2;
+        #10;
+
+        // Test sel = 3
+        sel = 3;
+        #10;
+
+        $finish;
+
     end
-  end
-
-  initial begin
-    // TODO: apply different input combinations
-
-  end
-
-  initial
-    $monitor($time, " I0=%b I1=%b S=%b | Y=%b", t_i0, t_i1, t_s, t_y); // change as required
 
 endmodule
