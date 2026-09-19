@@ -1,37 +1,55 @@
-// tb.v
-// Starter testbench template -- YOU complete this file.
-//
-// Goal: apply all 8 combinations of I0, I1, S (5 time units apart) to DUT
-// and observe the output. Fill in every TODO below.
+`timescale 1ns/1ps
 
 module tb;
 
-  // TODO: declare the three DUT inputs as the appropriate variable type.
-  // Use exactly these names: t_i0, t_i1, t_s (needed by $monitor below).
-  reg   ________________________;
-  // TODO: declare the DUT output as the appropriate net type.
-  // Use exactly this name: t_y (needed by $monitor below).
-  wire  ________________________;
+  // Inputs
+  reg I0;
+  reg I1;
+  reg S;
 
-  // TODO: instantiate DUT here, connecting t_i0, t_i1, t_s, t_y to its ports
+  // Output
+  wire Y;
 
+  // Instantiate DUT
+  DUT uut (
+    .I0(I0),
+    .I1(I1),
+    .S(S),
+    .Y(Y)
+  );
 
-  // Waveform dump configuration
-  string vcd_file;
+  // Test all possible combinations
   initial begin
-    if ($value$plusargs("vcd=%s", vcd_file)) begin
-      $dumpfile(vcd_file);
-      $dumpvars(0, DUT);
-    end
+
+    $monitor("Time=%0t | I0=%b I1=%b S=%b | Y=%b",
+             $time, I0, I1, S, Y);
+
+    I0 = 0; I1 = 0; S = 0;
+    #10;
+
+    I0 = 0; I1 = 0; S = 1;
+    #10;
+
+    I0 = 0; I1 = 1; S = 0;
+    #10;
+
+    I0 = 0; I1 = 1; S = 1;
+    #10;
+
+    I0 = 1; I1 = 0; S = 0;
+    #10;
+
+    I0 = 1; I1 = 0; S = 1;
+    #10;
+
+    I0 = 1; I1 = 1; S = 0;
+    #10;
+
+    I0 = 1; I1 = 1; S = 1;
+    #10;
+
+    $finish;
+
   end
-
-  initial begin
-    // TODO: apply all 8 combinations of t_i0, t_i1, t_s, 5 time units apart,
-    // then $finish. (Same pattern you used in Lab 1's tb.v.)
-
-  end
-
-  initial
-    $monitor($time, " I0=%b I1=%b S=%b | Y=%b", t_i0, t_i1, t_s, t_y);
 
 endmodule
